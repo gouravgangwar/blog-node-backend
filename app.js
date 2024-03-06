@@ -3,8 +3,8 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const app = express(); 
 const dotenv = require('dotenv');
+const upload = require("./config/fileUpload")
 dotenv.config();
-
 
 //middleware  
 app.use(express.urlencoded({extended:false}));

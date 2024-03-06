@@ -8,6 +8,7 @@ var blogSchema = mongoose.Schema({
     owner: { type: String, required: true },
     category: { type: String, required: true },
     content: { type: String, required: true },
+    bannerImage: { type: String, required: true },
     created_at: { type: Date, default: Date.now },
     is_deleted: { type: Boolean, default: false },
 });
