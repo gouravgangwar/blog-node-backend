@@ -2,7 +2,7 @@
 var blogs = require('../models/blog.model');
 
 
-module.exports = function (app) {
+module.exports =  (app)=> {
     app.route('/' + process.env.VERSION + '/createblog').post(async function (req, res, next) {
         try {
             const newBlog = new blogs({
@@ -11,6 +11,7 @@ module.exports = function (app) {
                 owner: req.body.owner,
                 category: req.body.category,
                 content: req.body.content,
+                bannerImage: req.body.bannerImage
             });
             const savedBlog = await newBlog.save();
             res.status(201).json({ 'responseCode': 200, 'bloglist': savedBlog });

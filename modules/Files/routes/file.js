@@ -1,30 +1,23 @@
 'use strict';
 const upload = require('../../../config/fileUpload')
-const fs = require('fs').promises
-module.exports = function (app) {
+const fs = require('node:fs/promises');
+const path = require('path');
 
-    app.route('/' + process.env.VERSION + '/checkserver').get(async function (req, res, next) {
-      
-        try {
-            res.json({ 'message': 'server run. hhhhhhhhhhh' })
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
-    });
 
-    app.route('/' + process.env.VERSION + '/fileUpload', upload.single('file')).post(async function (req, res, next) {
-        console.log(req.file);
+
+module.exports = (app) => {
+    app.route('/' + process.env.VERSION + '/file').post(upload.single('file'), async function (req, res, next) {
         if (!req.file) {
             return res.status(400).json({ error: "No file was submitted." })
         }
-        const fileId = path.parse(req.file.fileName).name;
-        const fileUrl = `${process.env.SERVERURL}/uploads/${req.file.filename}`;
+        const fileId = path.parse(req.file.filename).name;
+        const fileUrl = `${process.env.SERVERURL}uploads/${req.file.filename}`;
         return res.status(200).json({ 'responseCode': 200, 'fileDetails': { fileId, fileUrl } });
     })
 
     app.delete(`/${process.env.VERSION}/fileDelete/:fileId`, async (req, res) => {
         const fileId = req.params.fileId;
-        const filePath = path.join("./uploads", fileId)
+        const filePath = path.join(__dirname,"../../../uploads/", fileId + '.JPG')      
         try {
             await fs.access(filePath);
             await fs.unlink(filePath);
