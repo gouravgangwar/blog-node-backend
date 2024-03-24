@@ -16,7 +16,7 @@ app.use(cors());
 
 
 //multer
-app.use(express.static('./uploads'))
+app.use('/v1/uploads/',express.static('./uploads'))
 
 
 //testing Route:::
